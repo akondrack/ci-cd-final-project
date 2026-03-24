@@ -19,7 +19,7 @@ spec:
       script: |
         #!/usr/bin/env sh
         set -eu
-        echo "Removing all files from ${WORKSPACE_SOURCE_PATH} ..."
+        echo `date +"%Y/%m/%d %H:%M:%S"`" Removing all files from ${WORKSPACE_SOURCE_PATH} ..."
         # Delete any existing contents of the directory if it exists.
         #
         # We don't just "rm -rf ${WORKSPACE_SOURCE_PATH}" because ${WORKSPACE_SOURCE_PATH} might be "/"
@@ -32,6 +32,7 @@ spec:
           # Delete files and directories starting with .. plus any other character
           rm -rf "${WORKSPACE_SOURCE_PATH}"/..?*
         fi
+        echo `date +"%Y/%m/%d %H:%M:%S"`" done."
 
 ---
 apiVersion: tekton.dev/v1beta1
@@ -54,10 +55,11 @@ spec:
       script: |
         #!/bin/sh
         set -e
-        echo "Installing dependencies..."
+        echo `date +"%Y/%m/%d %H:%M:%S"`" Installing dependencies..."
         npm ci
-        echo "Running ESLint..."
+        echo `date +"%Y/%m/%d %H:%M:%S"`" Running ESLint..."
         npm run lint $(params.args)
+        echo `date +"%Y/%m/%d %H:%M:%S"`" done."
 
 ---
 apiVersion: tekton.dev/v1beta1
@@ -80,8 +82,9 @@ spec:
       script: |
         #!/bin/sh
         set -e
-        echo "Installing dependencies..."
+        echo `date +"%Y/%m/%d %H:%M:%S"`" Installing dependencies..."
         npm ci
-        echo "Running Jest tests..."
+        echo `date +"%Y/%m/%d %H:%M:%S"`" Running Jest tests..."
         npm test $(params.args)
+        echo `date +"%Y/%m/%d %H:%M:%S"`" done."
 
